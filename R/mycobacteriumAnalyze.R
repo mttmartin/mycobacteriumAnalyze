@@ -137,6 +137,17 @@ write_GO_enrichment <- function(GO_enrichment_object, filename)
 	write_table(GO_enrichment_object@result)
 }
 
+#' Analyzes the data(CSV file with protien and gene information) from a
+#' user specified file and carries out GO and KEGG enrichment analysis and
+#' finally outputs the results as tables at the user-specified location. 
+#' This function is essentially a wrapper around the rest of the functions
+#' provided, so that standard analysis can be done easily.
+#'
+#' @param input_filename The location of file you want to analyze. It should be in CSV format with a protein column and gene column
+#' @param output_prefix The output prefix you want added to all output files.
+#' @param species The species you are analyzing (either 'avium' or 'abscessum')
+#' @param do_KEGG Whether you want KEGG enrichment analysis (optional; default TRUE)
+#' @param do_GO Whether you want to do GO enrichment analysis (optional; default FALSE)
 #' @export
 analyze_mycobacterium_data <- function(input_filename, output_prefix, species, do_KEGG=TRUE, do_GO=FALSE)
 {
