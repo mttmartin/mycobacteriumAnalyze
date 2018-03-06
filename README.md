@@ -22,7 +22,7 @@ The package depends on clusterProfiler and org.Mabscessus.eg.db.
 
 ## Usage
 
-The most straight forward method for analysis is to use the "" function provided by this package. This function can take a CSV file with protein and gene information and output tables for KEGG and GO enrichment.
+The most straight forward method for analysis is to use the analyze_mycobacterium_data function provided by this package. This function can take a CSV file with protein and gene information and output tables for KEGG and GO enrichment.
 
 The get_KEGG_enrichment and get_GO_enrichment functions can also be used to retrieve clusterProfiler result objects. These can then be used with clusterProfiler to conduct further analysis such as creating various types of figures(see clusterProfiler documentation for more details on its capabilities). 
 
