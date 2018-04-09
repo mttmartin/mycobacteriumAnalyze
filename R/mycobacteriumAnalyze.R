@@ -29,6 +29,17 @@ get_uniprot_IDs <- function(data, species)
 	else if (species == "abscessus")
 	{
 		up <- UniProt.ws::UniProt.ws(taxId=36809)
+		data$gene <- as.character(data$gene)
+		for (i in 1:length(data$gene))
+		{
+			gene <- as.character(data$gene[[i]])
+			split_gene <- strsplit(gene, " ")[[1]]
+			if (length(split_gene) > 1)
+			{
+				split_gene <- split_gene[[length(split_gene)]]
+				data$gene[[i]] <- split_gene
+			}
+		}
 		entrez_IDs <- clusterProfiler::bitr(data$gene, fromType="SYMBOL", toType=c("ENTREZID"), OrgDb="org.Mabscessus.eg.db")$ENTREZID
 		uniprot_IDs <- select(up, entrez_IDs, "UNIPROTKB", "ENTREZ_GENE")$UNIPROTKB
 	}
@@ -75,15 +86,15 @@ get_entrez_IDs <- function(data, species)
 #' @param pvalueCutoff The p-value threshold that is considered significant (optional, default=0.05)
 #' @return A results object from clusterProfiler
 #' @export
-get_KEGG_enrichment <- function(uniprot_IDs, species, pvalueCutoff=0.05)
+get_KEGG_enrichment <- function(uniprot_IDs, species, pvalueCutoff=1)
 {
 	if (species == "avium")
 	{
-		kegg_results <- clusterProfiler::enrichKEGG(gene=as.character(uniprot_IDs), organism='mav', keyType='uniprot', pvalueCutoff=pvalueCutoff)
+		kegg_results <- clusterProfiler::enrichKEGG(gene=as.character(uniprot_IDs), organism='mav', keyType='uniprot', pvalueCutoff=pvalueCutoff, qvalueCutoff=1)
 	}
 	else if (species == "abscessus")
 	{
-		kegg_results <- clusterProfiler::enrichKEGG(gene=as.character(uniprot_IDs), organism='mab', keyType='uniprot', pvalueCutoff=pvalueCutoff)
+		kegg_results <- clusterProfiler::enrichKEGG(gene=as.character(uniprot_IDs), organism='mab', keyType='uniprot', pvalueCutoff=pvalueCutoff,qvalueCutoff=1)
 	}
 	else
 	{
@@ -92,7 +103,6 @@ get_KEGG_enrichment <- function(uniprot_IDs, species, pvalueCutoff=0.05)
 
 	return (kegg_results)
 }
-
 
 write_table <- function(table, filename)
 {
